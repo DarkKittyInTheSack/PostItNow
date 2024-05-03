@@ -7,8 +7,7 @@ CREATE TABLE user(
     email VARCHAR(50) NOT NULL UNIQUE,
     images VARCHAR(100) NOT NULL,
     accountId VARCHAR(20) NOT NULL,
-    descriptions VARCHAR(200),
-    
+    descriptions VARCHAR(200)
 );
 
 CREATE TABLE account(
@@ -225,6 +224,17 @@ CREATE TABLE user_save_attachment(
     saveAttachmentId VARCHAR(20) NOT NULL
 );
 
+CREATE TABLE post_attachment(
+    id VARCHAR(20) PRIMARY KEY NOT NULL,
+    postId VARCHAR(20) NOT NULL,
+    attachmentId VARCHAR(20) NOT NULL
+);
+CREATE TABLE user_attachment(
+    id VARCHAR(20) PRIMARY KEY NOT NULL,
+    userId VARCHAR(20) NOT NULL,
+    attachmentId VARCHAR(20) NOT NULL
+);
+
 ALTER TABLE user ADD CONSTRAINT fk_user_account_id FOREIGN KEY ( accountId ) REFERENCES account( accountId ) ON DELETE CASCADE;
 ALTER TABLE account ADD CONSTRAINT fk_account_role_id FOREIGN KEY ( roleId ) REFERENCES role( roleId ) ON DELETE CASCADE;
 ALTER TABLE user_address ADD CONSTRAINT fk_user_address_user_id FOREIGN KEY ( userId ) REFERENCES user( userId ) ON DELETE CASCADE;
@@ -264,3 +274,7 @@ ALTER TABLE post_type ADD CONSTRAINT fk_post_type_type_id FOREIGN KEY ( typeId )
 ALTER TABLE save_attachment ADD CONSTRAINT fk_save_attachment_attachment_id FOREIGN KEY ( attachmentId ) REFERENCES attachment( attachmentId ) ON DELETE CASCADE;
 ALTER TABLE user_save_attachment ADD CONSTRAINT fk_user_save_attachment_user_id FOREIGN KEY ( userId ) REFERENCES user( userId ) ON DELETE CASCADE;
 ALTER TABLE user_save_attachment ADD CONSTRAINT fk_user_save_attachment_save_attachment_id FOREIGN KEY ( saveAttachmentId ) REFERENCES save_attachment( saveAttachmentId ) ON DELETE CASCADE;
+ALTER TABLE post_attachment ADD CONSTRAINT fk_post_attachment_user_id FOREIGN KEY ( postId ) REFERENCES post( postId ) ON DELETE CASCADE;
+ALTER TABLE post_attachment ADD CONSTRAINT fk_post_attachment_attachment_id FOREIGN KEY ( attachmentId ) REFERENCES attachment( attachmentId ) ON DELETE CASCADE;
+ALTER TABLE user_attachment ADD CONSTRAINT fk_user_attachment_user_id FOREIGN KEY ( userId ) REFERENCES user( userId ) ON DELETE CASCADE;
+ALTER TABLE user_attachment ADD CONSTRAINT fk_user_attachment_attachment_id FOREIGN KEY ( attachmentId ) REFERENCES attachment( attachmentId ) ON DELETE CASCADE;
